@@ -2,28 +2,60 @@ class Solution {
     
      public ArrayList<Integer> inOrder(Node root) {
         ArrayList<Integer> ans = new ArrayList<>();
-        Stack<Node> st  = new Stack<>();
-        Node curr  = root;
-        while(st.size()>0 || curr!= null) {
-            if(curr !=  null) {
-                if(curr.left != null) {
-                st.push(curr);
-                curr =  curr.left;
-                }
-                else{
-                    ans.add(curr.data);
-                    curr =  curr.right;
-                }
-            }
-            
-            else{  //  curr  ==  null 
-                 Node top = st.pop();
-                 ans.add(top.data);
-                 curr =  top.right;
+        
+        Node curr = root;
+        while(curr != null) {
+            if(curr.left != null){
+               // find pred and do work 
+               Node pred = curr.left;
+               while(pred.right!=null && pred.right != curr)
+               pred = pred.right;
+               if(pred.right == null) {  // link
+                   pred.right = curr;
+                   curr  = curr.left;
+              }
+               else{ // pred.right = curr // unlinked & print
+                   pred.right = null;
+                   ans.add(curr.data);
+                   curr =  curr.right;
             }
         }
-        return ans; 
-    }
+        else {
+            ans.add(curr.data);
+            curr =  curr.right;
+           }
+        }   
+        return ans;
+     
+
+     }
+     
+}     
+
+
+
+    //     Stack<Node> st  = new Stack<>();
+    //     Node curr  = root;
+    //     while(st.size()>0 || curr!= null) {
+    //         if(curr !=  null) {
+    //             if(curr.left != null) {
+    //             st.push(curr);
+    //             curr =  curr.left;
+    //             }
+    //             else{
+    //                 ans.add(curr.data);
+    //                 curr =  curr.right;
+    //             }
+    //         }
+            
+    //         else{  //  curr  ==  null 
+    //              Node top = st.pop();
+    //              ans.add(top.data);
+    //              curr =  top.right;
+    //         }
+    //     }
+    //     return ans; 
+    // }
     
     
     
@@ -42,4 +74,4 @@ class Solution {
     //     dfs(root,ans);
     //     return ans;
     // }
-}
+//}
