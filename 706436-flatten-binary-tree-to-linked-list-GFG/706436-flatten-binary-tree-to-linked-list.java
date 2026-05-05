@@ -2,16 +2,31 @@
 
 class Solution {
      public static void flatten(Node root) {
-         if(root==null) return;
-         Node lst  = root.left;
-         Node rst  = root.right;
-         root.left = null;
-         flatten(lst);   // magic
-         flatten(rst);
-         root.right = lst;
-         Node last  = root;
-         while(last.right != null) last = last.right;
-         last.right= rst;
+       Node curr  = root;
+       while(curr!=null) {
+           if(curr.left!=null) {
+               Node pred = curr.left;
+               while(pred.right!= null)  pred  = pred.right;
+               pred.right = curr.right;
+               curr.right = curr.left;
+               curr.left =  null;
+               curr =  curr.right;  // jab pred k left null ho jata h 
+           }
+           else  curr =  curr.right;
+       }
+     }
+}
+    //  public static void flatten(Node root) {
+    //      if(root==null) return;
+    //      Node lst  = root.left;
+    //      Node rst  = root.right;
+    //      root.left = null;
+    //      flatten(lst);   // magic
+    //      flatten(rst);
+    //      root.right = lst;
+    //      Node last  = root;
+    //      while(last.right != null) last = last.right;
+    //      last.right= rst;
          
          
     //         ArrayList<Node>  arr =  new ArrayList<>();
@@ -33,5 +48,5 @@ class Solution {
     //     arr.add(root);
     //     dfs(root.left,arr);
     //     dfs(root.right,arr);
-     }
-}
+  //   }
+ // }
