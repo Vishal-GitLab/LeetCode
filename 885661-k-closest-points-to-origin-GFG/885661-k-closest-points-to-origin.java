@@ -1,37 +1,37 @@
-import java.util.*;
-
-class Triplet implements Comparable<Triplet> {
-    int dist, x, y;
-
+class Triplet implements  Comparable<Triplet> {
+    int dist;
+    int x;
+    int y;
     Triplet(int dist, int x, int y) {
         this.dist = dist;
         this.x = x;
         this.y = y;
     }
-
     public int compareTo(Triplet t) {
-        return this.dist - t.dist;
+        return  this.dist  -  t.dist;
     }
 }
-
 class Solution {
-    ArrayList<ArrayList<Integer>> kClosest(int[][] points, int k) {
-        PriorityQueue<Triplet> pq = new PriorityQueue<>(Collections.reverseOrder());
-        for (int[] point : points) {
-            int x = point[0];
-            int y = point[1];
-            int dist = x * x + y * y;
-            pq.add(new Triplet(dist, x, y));
-            if (pq.size() > k)
-                pq.remove();
+       ArrayList<ArrayList<Integer>> kClosest(int[][] points, int k) {    
+     // k smallest distance -> maxheap
+        PriorityQueue<Triplet>  pq  = new PriorityQueue<>(Collections.reverseOrder());
+        for(int[] point : points){
+            int x  = point[0], y  = point[1];
+            int dist  =  x*x + y*y;
+            pq.add(new Triplet(dist,x,y));
+            if (pq.size()>k)  pq.remove();
         }
-        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        while (!pq.isEmpty()) {
-            Triplet top = pq.remove();
-            ArrayList<Integer> temp = new ArrayList<>();
+
+        // ab jo heanp bcha hua hai usko bahar nikal kar two D aray me put kra ke answer return krayenge
+          ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+           //  int[][]  ans  = new int[k][2];
+              for (int i=0; i<k; i++) {
+            // priority queue se value nikalte rahenge
+            Triplet top = pq.remove();   
+             ArrayList<Integer> temp = new ArrayList<>();
             temp.add(top.x);
-            temp.add(top.y);
-            ans.add(temp);
+           temp.add(top.y);
+           ans.add(temp);
         }
         return ans;
     }
