@@ -1,46 +1,40 @@
- class Solution {
-        class Pair implements Comparable<Pair> {      // hma pair ke liye comparable krenge
-            int num,count;
-            Pair(int num, int count) {
-                this.num = num;
-                this.count = count;
+class Solution {
+        // User defined Pair class for heap elements
+        class Pair implements Comparable<Pair> {     
+            int ele;
+            int freq;
+            Pair(int ele, int freq) {
+                this.ele=ele;
+                this.freq=freq;
             }
-            @Override
-            public int compareTo(Pair b) {
-                return this.count-b.count;
+            public int compareTo(Pair p) {
+                if(this.freq==p.freq)  return this.ele - p.ele;      // ye ele ke base par hame shor karke de dega 
+                return this.freq - p.freq;         // ye freq ke base par hamko short karke de dega 
             }
-        }
-        
-        public int[] topKFrequent(int[] nums, int k) {
-            HashMap<Integer,Integer> mp  = new HashMap<>();
-            // ab frequent find karenge
-            for(int num:nums) {
-                mp.put(num,mp.getOrDefault(num,0)+1);  // jtni bar value occur gyi hai usko layega hash map me
+        } 
+        public int[] topKFrequent(int[] arr, int k) {
+            HashMap<Integer,Integer> map  = new HashMap<>();
+            for(int ele:arr) {
+                map.put(ele,map.getOrDefault(ele,0)+1);   
             }
             PriorityQueue<Pair> pq =  new PriorityQueue<>();
-            // ab hme data nikal kar add karna padega
-            // sare key lake de dega ye
-            Set<Integer>  keys = mp.keySet();
-            for (int key : keys) {
-                if(pq.size()  < k) {
-                    pq.add(new Pair(key,mp.get(key)));
+            for (int ele: map.keySet()) {
+                int freq = map.get(ele);
+                    pq.add(new Pair(ele,freq));
+                    if(pq.size() > k) pq.remove();
                 }
-                    // jokam frequency wale element hai usko delete kar dega
-                    else if(pq.peek().count < mp.get(key)) {
-                        pq.poll();   // jo top ka element hai vo delete ho jayega
-                        pq.add(new Pair(key,mp.get(key)));
-                    }
-                }
-                int[] arr =  new int[k];
-                int  i  = k-1;
-                while (i>=0)
-                    arr[i--] = pq.poll().num;
-               
-          return arr;
+                  
+                  int[] ans  =  new int[k];
+                  int i  = 0;
+                  while(!pq.isEmpty()) {
+                    Pair top = pq.remove();
+                    ans[i++] = top.ele;
+                  }
+                
+                  return ans;
            }
+        
  }
-    
-
 
 // Synced seamlessly with LeetHub Pro
 // Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
